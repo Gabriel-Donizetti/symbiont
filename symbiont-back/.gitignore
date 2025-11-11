@@ -1,0 +1,14 @@
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Dependências
+target/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db

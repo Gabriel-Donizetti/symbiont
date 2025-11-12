@@ -2,6 +2,7 @@ package com.hub.br.symbiont.application.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hub.br.symbiont.application.auth.dto.AuthDto;
 import com.hub.br.symbiont.application.auth.dto.SignInDto;
 import com.hub.br.symbiont.application.response.ApiResponse;
+import com.hub.br.symbiont.application.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,11 +45,18 @@ public class AuthController {
 
     @Operation(summary = "Refresh Token", description = "Recupera a autenticação via refresh-token", method = "POST")
     @PostMapping("/refresh")
-     public ResponseEntity<ApiResponse> refresh(@RequestBody @Valid SignInDto dto) {
+    public ResponseEntity<ApiResponse> refresh(@RequestBody @Valid SignInDto dto) {
         String redirectUrl = service.refresh(dto);
         return ResponseEntity.status(302)
                 .header("Location", redirectUrl)
                 .build();
+    }
+
+    @Operation(summary = "Retorna public key", description = "Recupera a public key para validação do token", method = "GET")
+    @GetMapping("/key")
+    public ResponseEntity<ApiResponse> getPublicKey() {
+        ApiResponse response = new SuccessResponse<>(service.getPublicKey());
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "Realiza logout do usuário", description = "Encerra a sessão do usuário", method = "POST")

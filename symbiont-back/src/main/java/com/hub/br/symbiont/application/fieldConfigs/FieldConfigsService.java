@@ -1,13 +1,20 @@
 package com.hub.br.symbiont.application.fieldConfigs;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class FieldConfigsService {
+import com.hub.br.symbiont.application.fieldConfigs.dto.FieldsSigninDto;
+import com.hub.br.symbiont.domain.model.UserFieldConfig;
+import com.hub.br.symbiont.infra.repository.UserFieldConfigRepository;
 
-    public void getSigninFields() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSigninFields'");
-    }
+@Service
+public class FieldConfigsService { 
+
+   @Autowired
+    private UserFieldConfigRepository repository;
+
     
 }

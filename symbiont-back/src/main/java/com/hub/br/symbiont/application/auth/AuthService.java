@@ -1,5 +1,7 @@
 package com.hub.br.symbiont.application.auth;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,8 +14,6 @@ import com.hub.br.symbiont.domain.model.User;
 import com.hub.br.symbiont.infra.repository.ClientRepository;
 import com.hub.br.symbiont.infra.repository.UserRepository;
 import com.hub.br.symbiont.infra.security.TokenService;
-
-import jakarta.validation.Valid;
 
 @Service
 public class AuthService {
@@ -56,6 +56,10 @@ public class AuthService {
     public String register(SignInDto dto) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'register'");
+    }
+
+    public Map<String, Object> getPublicKey() {
+        return tokenService.getPublicJwks();
     }
 
     public void logout() {

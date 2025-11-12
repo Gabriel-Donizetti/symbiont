@@ -2,6 +2,7 @@ package com.hub.br.symbiont.infra.security;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -9,6 +10,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -94,4 +97,33 @@ public class TokenService {
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decoded);
         return (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(keySpec);
     }
+
+    public Map<String, Object> getPublicJwks() {
+        BigInteger modulus = publicKey.getModulus();
+        BigInteger exponent = publicKey.getPublicExponent();
+
+        String n = Base64.getUrlEncoder().withoutPadding()
+                .encodeToString(stripLeadingZero(modulus.toByteArray()));
+        String e = Base64.getUrlEncoder().withoutPadding()
+                .encodeToString(stripLeadingZero(exponent.toByteArray()));
+
+        return Map.of(
+                "keys", List.of(Map.of(
+                        "kty", "RSA",
+                        "alg", "RS256",
+                        "use", "sig",
+                        "kid", "symbiont-key-1",
+                        "n", n,
+                        "e", e)));
+    }
+
+    private byte[] stripLeadingZero(byte[] bytes) {
+        if (bytes.length > 1 && bytes[0] == 0x00) {
+            byte[] tmp = new byte[bytes.length - 1];
+            System.arraycopy(bytes, 1, tmp, 0, tmp.length);
+            return tmp;
+        }
+        return bytes;
+    }
+
 }

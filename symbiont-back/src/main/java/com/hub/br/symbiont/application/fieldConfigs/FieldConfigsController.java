@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hub.br.symbiont.application.fieldConfigs.dto.FieldsSigninDto;
 import com.hub.br.symbiont.application.response.ApiResponse;
+import com.hub.br.symbiont.application.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,9 +23,8 @@ public class FieldConfigsController {
     private FieldConfigsService service;
 
     @Operation(summary = "Get campos de cadastro", description = "Retorna os campos de cadastro que estão ativados para serem renderizados no front", method = "GET")
-    @GetMapping("/fields")
+    @GetMapping("/signin")
     public ResponseEntity<ApiResponse> getMethodName(@RequestParam String param) {
-         service.getSigninFields();
-        return ResponseEntity.ok().build(); 
+        return ResponseEntity.ok(new SuccessResponse<FieldsSigninDto>(service.getSigninFields()));
     }
 }

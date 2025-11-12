@@ -6,11 +6,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hub.br.symbiont.application.auth.dto.AuthDto;
+import com.hub.br.symbiont.application.auth.dto.SignInDto;
 import com.hub.br.symbiont.domain.model.Client;
 import com.hub.br.symbiont.domain.model.User;
 import com.hub.br.symbiont.infra.repository.ClientRepository;
 import com.hub.br.symbiont.infra.repository.UserRepository;
 import com.hub.br.symbiont.infra.security.TokenService;
+
+import jakarta.validation.Valid;
 
 @Service
 public class AuthService {
@@ -50,8 +53,19 @@ public class AuthService {
         return String.format("%s?token=%s", client.getRedirectUri(), token);
     }
 
-    public String register(AuthDto dto) {
+    public String register(SignInDto dto) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'register'");
     }
+
+    public void logout() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'logout'");
+    }
+
+    public String refresh(SignInDto dto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'refresh'");
+    }
+
 }

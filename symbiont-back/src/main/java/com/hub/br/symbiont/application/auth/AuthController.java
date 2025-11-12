@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hub.br.symbiont.application.auth.dto.AuthDto;
+import com.hub.br.symbiont.application.auth.dto.SignInDto;
+import com.hub.br.symbiont.application.response.ApiResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,8 +34,17 @@ public class AuthController {
 
     @Operation(summary = "Registra um novo usuário", description = "Registra um novo usuário no sistema", method = "POST")
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid AuthDto dto) {
+    public ResponseEntity<Void> register(@RequestBody @Valid SignInDto dto) {
         String redirectUrl = service.register(dto);
+        return ResponseEntity.status(302)
+                .header("Location", redirectUrl)
+                .build();
+    }
+
+    @Operation(summary = "Refresh Token", description = "Recupera a autenticação via refresh-token", method = "POST")
+    @PostMapping("/refresh")
+     public ResponseEntity<ApiResponse> refresh(@RequestBody @Valid SignInDto dto) {
+        String redirectUrl = service.refresh(dto);
         return ResponseEntity.status(302)
                 .header("Location", redirectUrl)
                 .build();
@@ -43,7 +54,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<Void> logout() {
         service.logout();
-        return ResponseEntity.ok().build(); 
+        return ResponseEntity.ok().build();
     }
 
 }
